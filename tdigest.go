@@ -152,9 +152,15 @@ func (t *TDigest) process() {
 //
 // Centroids are appended to the passed CentroidList; if you're re-using a
 // buffer, be sure to pass cl[:0].
-func (t *TDigest) Centroids(cl CentroidList) CentroidList {
+func (t *TDigest) AppendCentroids(cl CentroidList) CentroidList {
 	t.process()
 	return append(cl, t.processed...)
+}
+
+// Do not retain or modify result
+func (t *TDigest) Centroids() CentroidList {
+	t.process()
+	return t.processed
 }
 
 func (t *TDigest) Count() float64 {
