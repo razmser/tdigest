@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/influxdata/tdigest"
+	"github.com/hrissan/tdigest"
 )
 
 var quantiles = []float64{

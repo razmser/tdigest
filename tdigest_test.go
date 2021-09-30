@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/influxdata/tdigest"
+	"github.com/hrissan/tdigest"
 	"golang.org/x/exp/rand"
 	"gonum.org/v1/gonum/stat/distuv"
 )

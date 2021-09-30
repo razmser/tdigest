@@ -1,4 +1,4 @@
-module github.com/influxdata/tdigest
+module github.com/hrissan/tdigest
 
 require (
 	github.com/google/go-cmp v0.2.0
