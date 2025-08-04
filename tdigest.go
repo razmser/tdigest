@@ -198,8 +198,7 @@ func (t *TDigest) updateCumulative() {
 // the distribution. Accepted values for q are between 0.0 and 1.0.
 // Returns NaN if Count is zero or bad inputs.
 func (t *TDigest) Quantile(q float64) float64 {
-	t.process()
-	t.updateCumulative()
+	t.Normalize()
 	if q < 0 || q > 1 || t.processed.Len() == 0 {
 		return math.NaN()
 	}
@@ -228,8 +227,7 @@ func (t *TDigest) Quantile(q float64) float64 {
 
 // CDF returns the cumulative distribution function for a given value x.
 func (t *TDigest) CDF(x float64) float64 {
-	t.process()
-	t.updateCumulative()
+	t.Normalize()
 	switch t.processed.Len() {
 	case 0:
 		return 0.0
@@ -278,6 +276,13 @@ func (t *TDigest) CDF(x float64) float64 {
 	z1 := x - t.processed[upper-1].Mean
 	z2 := t.processed[upper].Mean - x
 	return weightedAverage(t.cumulative[upper-1], z2, t.cumulative[upper], z1) / t.processedWeight
+}
+
+// Normalize should be calling after creation to process cenroids and recount cumulative
+// read calls after it DO NOT modify internal state as long no write calls were made (Add*, Merge)
+func (t *TDigest) Normalize() {
+	t.process()
+	t.updateCumulative()
 }
 
 func (t *TDigest) integratedQ(k float64) float64 {
